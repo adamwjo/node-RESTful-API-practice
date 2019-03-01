@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/adamwjo/node-RESTful-API-practice/issues"
   },
-  "homepage": "https://github.com/adamwjo/node-RESTful-API-practice#readme"
+  "homepage": "https://github.com/adamwjo/node-RESTful-API-practice#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
