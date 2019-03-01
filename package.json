@@ -18,5 +18,8 @@
   "homepage": "https://github.com/adamwjo/node-RESTful-API-practice#readme",
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }
