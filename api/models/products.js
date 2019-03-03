@@ -1,9 +1,20 @@
 const mongoose = require('mongoose')
+const timeStamp = require('mongoose-timestamp')
 
-const productSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    name: String,
-    price: Number
+const ProductSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    price: {
+        type: Number,
+        required: true
+    }
 })
 
-module.exports = mongoose.model('Product', productSchema)
+ProductSchema.plugin(timeStamp)
+
+const Product = mongoose.model('Product', ProductSchema)
+
+module.exports = Product
