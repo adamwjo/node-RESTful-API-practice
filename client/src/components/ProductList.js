@@ -29,6 +29,15 @@ export default class ProductList extends Component {
                     style={{marginBottom: '2rem'}}>
                     Add Item
                 </Button>
+                <ListGroup>
+                    <TransitionGroup>
+                        {items.map(({ id, name}) => (
+                            <CSSTransition key={id} timeout={500} classNames='fade'>
+                                <ListGroupItem>{name}</ListGroupItem>
+                            </CSSTransition>
+                        ))}
+                    </TransitionGroup>
+                </ListGroup>
             </Container>
         )
     }
