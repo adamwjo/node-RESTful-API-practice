@@ -31,7 +31,7 @@ export default class NavBar extends Component {
                         </NavbarBrand>
                         <NavbarToggler onClick={this.toggle}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav>
+                            <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     <NavLink href='/'>
                                         github

@@ -33,7 +33,19 @@ export default class ProductList extends Component {
                     <TransitionGroup>
                         {items.map(({ id, name}) => (
                             <CSSTransition key={id} timeout={500} classNames='fade'>
-                                <ListGroupItem>{name}</ListGroupItem>
+                                <ListGroupItem>
+                                <Button
+                                    className='remove-btn'
+                                    color='danger'
+                                    size='small'
+                                    onClick={() => {
+                                        this.setState(state => ({
+                                            items: state.items.filter(item => item.id !== id)
+                                        }))
+                                    }}
+                                >&times;</Button>
+                                {name}
+                                </ListGroupItem>
                             </CSSTransition>
                         ))}
                     </TransitionGroup>
