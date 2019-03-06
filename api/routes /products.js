@@ -1,76 +1,43 @@
-const errors = require('restify-errors')
+const express = require('express');
+const router = express.Router();
 
-const Product = require('../models/products.js')
+// Item Model
+const Product = require('../models/products.js');
 
-module.exports = server => {
-    //get all products (GET /products)
-    server.get('/products', async (req, res, next) => {
-        try {
-            const Products = await Product.find({})
-            res.send(Products)
-            next() 
-        } catch (error) {
-            return next(new errors.InvalidContentError(error))
-        }
-    })
-
-    //get a specific customer (GET /products/:id)
-    server.get('/products/:id', async (req, res, next) => {
-        try {
-            const myProduct = await Product.findById(req.params.id)
-            res.send(myProduct)
-            next()
-        } catch (error) {
-            return next(new errors.ResourceNotFoundError(`there is no product with id:${req.params.id}`))
-        }
-    })
-
-    //Add a Product (POST /products)
-    server.post('/products', async (req, res, next) => {
-        //check if the content type is application/json
-        if(!req.is('application/json')){
-            return next(new errors.InvalidContentError('Expects content-type: application/json'))
-        }
-        const { name, price } = req.body
-        const product = new Product({
-            name: name,
-            price: price
+// @route   GET api/items
+// @desc    Get All Items
+// @access  Public
+router.get('/', (req, res) => {
+    Product.find()
+        .sort({
+            date: -1
         })
-        try {
-            const newProduct = await product.save()
-            res.send(201, newProduct)
-            next()
-            
-        } catch (error) {
-            return next(new errors.InternalError(err.message))
-        }
-    })
-    
-    //update a particular product (PUT /products/:id)
-    server.put('/products/:id', async (req, res, next) => {
-        if (!req.is('application/json')) {
-            return next(new errors.InvalidContentError('Expects header of type: application/json'))
-        }
-        try {
-            const updatedProduct = await Product.findOneAndUpdate({_id: req.params.id}, req.body)
-            res.send(200)
-            
-        } catch (error) {
-            return next(new errors.ResourceNotFoundError(`there is no product with id:${req.params.id}`))
-        }
-    })
+        .then(products => res.json(products));
+});
 
-    //delete a particular product (DELETE /products/:id)
-    server.del('/products/:id', async (req, res, next) => {
-        try {
-            const deletedProduct = await Product.findOneAndRemove({_id: req.params.id})
-            res.send(204)
-            next()
+// @route   POST api/items
+// @desc    Create An Item
+// @access  Public
+router.post('/', (req, res) => {
+    const newProduct = new Product({
+        name: req.body.name,
+        price: req.body.price
+    });
 
-        } catch (error) {
-            return next(new errors.ResourceNotFoundError(`there is no product with id:${req.params.id}`))
-        }
-    })
-}
+    newProduct.save().then(product => res.json(product));
+});
 
+// @route   DELETE api/items/:id
+// @desc    Delete A Item
+// @access  Public
+router.delete('/:id', (req, res) => {
+    Product.findById(req.params.id)
+        .then(product => product.remove().then(() => res.json({
+            success: true
+        })))
+        .catch(err => res.status(404).json({
+            success: false
+        }));
+});
 
+module.exports = router;
