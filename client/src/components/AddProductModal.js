@@ -11,7 +11,6 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addProduct } from '../redux/actions/productActions'
-import uuid from 'uuid'
 
 class AddProductModal extends Component {
     state = {
@@ -37,7 +36,6 @@ class AddProductModal extends Component {
         e.preventDefault();
 
         const newProduct = {
-            id: uuid(),
             name: this.state.name,
             price: this.state.price
         }

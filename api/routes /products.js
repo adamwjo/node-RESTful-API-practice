@@ -38,7 +38,7 @@ module.exports = server => {
         })
         try {
             const newProduct = await product.save()
-            res.send(201)
+            res.send(201, newProduct)
             next()
             
         } catch (error) {

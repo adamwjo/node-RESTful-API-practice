@@ -3,7 +3,7 @@ import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getProducts, deleteProduct } from '../redux/actions/productActions';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 class ProductList extends Component {
@@ -17,19 +17,19 @@ class ProductList extends Component {
     }
     
     render(){
-        const { products } = this.props.productState
+        const { products } = this.props.item 
         return(
             <Container>
                 <ListGroup>
-                    <TransitionGroup>
-                        {products.map(({ id, name}) => (
-                            <CSSTransition key={id} timeout={500} classNames='fade'>
-                                <ListGroupItem>
+                    < TransitionGroup className='shopping-list'>
+                        {products.map(({ _id, name }) => (
+                            <CSSTransition key={_id} timeout={500} classNames="fade">
+                                <ListGroupItem >
                                 <Button
                                     className='remove-btn'
                                     color='danger'
                                     size='small'
-                                    onClick={this.deleteHandler.bind(this, id)}
+                                    onClick={this.deleteHandler.bind(this, _id)}
                                 >&times;</Button>
                                 {name}
                                 </ListGroupItem>
@@ -43,12 +43,12 @@ class ProductList extends Component {
 }
 
 ProductList.propTypes = {
-    getProducts: propTypes.func.isRequired,
-    productState: propTypes.object.isRequired
+    getProducts: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    productState: state.productState
+    item: state.item
 })
 
 

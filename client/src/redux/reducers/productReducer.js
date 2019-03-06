@@ -10,13 +10,15 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case GET_PRODUCTS:
             return {
-                ...state
+                ...state,
+                products: action.payload,
+                loading: false
             };
 
         case DELETE_PRODUCT:
             return {
                 ...state,
-                products: state.products.filter(product => product.id !== action.payload)
+                products: state.products.filter(product => product._id !== action.payload)
 
             }
         
@@ -32,8 +34,7 @@ export default function(state = initialState, action) {
                 loading: true
             }
     
-        default:
-
-        return state
+        default: 
+            return state;
     }
 }
