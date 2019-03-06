@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'; 
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import uuid from 'uuid'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import uuid from 'uuid';
+import { connect } from 'react-redux';
+import { getProducts } from '../redux/actions/productActions';
+import propTypes from 'prop-types'
 
-export default class ProductList extends Component {
-    state = {
-        items: [
-            { id: uuid(), name: 'name1', price: 10},
-            { id: uuid(), name: 'name2', price: 11},
-            { id: uuid(), name: 'name3', price: 12},
-            { id: uuid(), name: 'name4', price: 13}
-        ]
+
+class ProductList extends Component {
+
+    componentDidMount() {
+        this.props.getProducts();
     }
+    
     render(){
-        const { items } = this.state
+        const { products } = this.props.productState
         return(
             <Container>
                 <Button 
@@ -21,7 +22,7 @@ export default class ProductList extends Component {
                         const name = prompt('Enter Item')
                         if (name) {
                             this.setState((state) => ({
-                                items: [...state.items, {id: uuid(), name: name}]
+                                products: [...state.products, {id: uuid(), name: name}]
                             }))
                         }
                     }}
@@ -31,7 +32,7 @@ export default class ProductList extends Component {
                 </Button>
                 <ListGroup>
                     <TransitionGroup>
-                        {items.map(({ id, name}) => (
+                        {products.map(({ id, name}) => (
                             <CSSTransition key={id} timeout={500} classNames='fade'>
                                 <ListGroupItem>
                                 <Button
@@ -40,7 +41,7 @@ export default class ProductList extends Component {
                                     size='small'
                                     onClick={() => {
                                         this.setState(state => ({
-                                            items: state.items.filter(item => item.id !== id)
+                                            products: state.products.filter(item => item.id !== id)
                                         }))
                                     }}
                                 >&times;</Button>
@@ -54,3 +55,14 @@ export default class ProductList extends Component {
         )
     }
 }
+
+ProductList.propTypes = {
+    getProducts: propTypes.func.isRequired,
+    productState: propTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    productState: state.productState
+})
+
+export default connect(mapStateToProps, { getProducts })(ProductList);
