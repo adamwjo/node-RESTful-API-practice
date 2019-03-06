@@ -1,25 +1,39 @@
-import uuid from 'uuid';
-import { GET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT} from '../actions/types';
+import { GET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT, PRODUCTS_LOADING} from '../actions/types';
 
 const initialState =  {
-   products: [
-            { id: uuid(), name: 'name1', price: 10},
-            { id: uuid(), name: 'name2', price: 11},
-            { id: uuid(), name: 'name3', price: 12},
-            { id: uuid(), name: 'name4', price: 13}
-        ]
-}
+   products: [],
+   loading: false
+};
+
 
 export default function(state = initialState, action) {
     switch (action.type) {
         case GET_PRODUCTS:
             return {
                 ...state
+            };
+
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                products: state.products.filter(product => product.id !== action.payload)
+
             }
-            break;
+        
+        case ADD_PRODUCT:
+            return {
+                ...state,
+                products: [action.payload, ...state.products]
+            }
+
+        case PRODUCTS_LOADING:
+            return {
+                ...state,
+                loading: true
+            }
     
         default:
+
         return state
-            break;
     }
 }

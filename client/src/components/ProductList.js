@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'; 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
 import { connect } from 'react-redux';
-import { getProducts } from '../redux/actions/productActions';
-import propTypes from 'prop-types'
+import { getProducts, deleteProduct } from '../redux/actions/productActions';
+import propTypes from 'prop-types';
 
 
 class ProductList extends Component {
@@ -12,24 +11,15 @@ class ProductList extends Component {
     componentDidMount() {
         this.props.getProducts();
     }
+
+    deleteHandler = (id) => {
+        this.props.deleteProduct(id)
+    }
     
     render(){
         const { products } = this.props.productState
         return(
             <Container>
-                <Button 
-                    onClick={() => {
-                        const name = prompt('Enter Item')
-                        if (name) {
-                            this.setState((state) => ({
-                                products: [...state.products, {id: uuid(), name: name}]
-                            }))
-                        }
-                    }}
-                    color='dark' 
-                    style={{marginBottom: '2rem'}}>
-                    Add Item
-                </Button>
                 <ListGroup>
                     <TransitionGroup>
                         {products.map(({ id, name}) => (
@@ -39,11 +29,7 @@ class ProductList extends Component {
                                     className='remove-btn'
                                     color='danger'
                                     size='small'
-                                    onClick={() => {
-                                        this.setState(state => ({
-                                            products: state.products.filter(item => item.id !== id)
-                                        }))
-                                    }}
+                                    onClick={this.deleteHandler.bind(this, id)}
                                 >&times;</Button>
                                 {name}
                                 </ListGroupItem>
@@ -65,4 +51,12 @@ const mapStateToProps = (state) => ({
     productState: state.productState
 })
 
-export default connect(mapStateToProps, { getProducts })(ProductList);
+
+
+export default connect(
+    mapStateToProps,
+    {
+        getProducts,
+        deleteProduct
+    }
+)(ProductList)
