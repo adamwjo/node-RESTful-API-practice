@@ -12,6 +12,7 @@ import store from './redux/store'
 import AppNavbar from './components/AppNavBar'
 import ProductList from './components/ProductList'
 import AddProductModal from './components/AddProductModal'
+import MainMenu from './components/mainMenu'
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <AppNavbar/>
+              <MainMenu/>
             <Container>
               <AddProductModal/>
               <ProductList/>

@@ -51,7 +51,7 @@ class AddProductModal extends Component {
             <div>
                 <Button
                     color='dark'
-                    style={{marginBottom: '2rem'}}
+                    style={{marginBottom: '2rem', marginTop: '3rem'}}
                     onClick={this.toggle}
                 >
                 Add Product
