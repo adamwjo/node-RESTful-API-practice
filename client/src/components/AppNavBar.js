@@ -24,7 +24,7 @@ export default class NavBar extends Component {
     render(){
         return(
             <div>
-                <Navbar color='dark' dark expand='sm' className='mb-5' >
+                <Navbar color='success' dark expand='sm' className='mb-5' >
                     <Container>
                         <NavbarBrand href='/'>
                             Restaurant App
